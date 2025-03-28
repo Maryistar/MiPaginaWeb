@@ -1,0 +1,31 @@
+name: Deploy webside
+
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  validate-html:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout del codigo
+        uses: actions/checkout@v3
+
+      - name: validar HTML
+        uses: cyb3r-jak3/html5-validator.action@v1
+        with:
+          file: index.html
+deploy:
+  needs: validate-html
+  runs-on: ubuntu-latest
+  steps:
+    - name: checkout del codigo
+      uses: actions/checkout@v3
+
+    - name: configurar Github pages
+      uses: actions/configure-pages@v3
+
+    - name: Publicar en Github pages 
+      uses: actions/upload-pages-artifact@v2
